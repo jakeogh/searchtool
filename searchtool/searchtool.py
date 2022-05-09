@@ -22,72 +22,22 @@
 # pylint: disable=C0305  # Trailing newlines editor should fix automatically, pointless warning
 
 import asyncio
-import os
-import sys
-import time
-from pathlib import Path
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
-# from typing import ByteString
-# from typing import Generator
-# from typing import List
-# from typing import Tuple
-from typing import Iterable
-from typing import Optional
 from typing import Sequence
 from typing import Union
 
 import click
-# import sh
 from asserttool import ic
-# from asserttool import validate_slice
 from click_auto_help import AHGroup
 from clicktool import click_add_options
 from clicktool import click_global_options
 from clicktool import tv
-# from eprint import eprint
-# from with_sshfs import sshfs
-# from with_chdir import chdir
 from mptool import output
 from mptool import unmp
-from retry_on_exception import retry_on_exception
 from youtubesearchpython.__future__ import VideosSearch
 
-# from collections import defaultdict
-# from prettyprinter import cpprint
-# from prettyprinter import install_extras
-# install_extras(['attrs'])
-# from timetool import get_timestamp
-
-# from configtool import click_read_config
-# from configtool import click_write_config_entry
-
-# from asserttool import not_root
-# from pathtool import path_is_block_special
-# from pathtool import write_line_to_file
-# from getdents import files
-# from prettytable import PrettyTable
-# output_table = PrettyTable()
-
-
-# sh.mv = None  # use sh.busybox('mv'), coreutils ignores stdin read errors
-
-# click-command-tree
-# from click_plugins import with_plugins
-# from pkg_resources import iter_entry_points
-
-# import pdb; pdb.set_trace()
-# #set_trace(term_size=(80, 24))
-# from pudb import set_trace; set_trace(paused=False)
-
-##def log_uncaught_exceptions(ex_cls, ex, tb):
-##   eprint(''.join(traceback.format_tb(tb)))
-##   eprint('{0}: {1}'.format(ex_cls, ex))
-##
-##sys.excepthook = log_uncaught_exceptions
-
-# this should be earlier in the imports, but isort stops working
 signal(SIGPIPE, SIG_DFL)
 
 
@@ -139,7 +89,7 @@ def cli(
     )
 
 
-@click.command("youtube")
+@cli.command("youtube")
 @click.argument("terms", type=str, nargs=-1)
 @click_add_options(click_global_options)
 @click.pass_context
