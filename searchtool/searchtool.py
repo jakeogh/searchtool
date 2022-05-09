@@ -63,7 +63,15 @@ async def main(
 ):
     search = VideosSearch(term)
     while True:
-        result = await search.next()
+        try:
+            result = await search.next()
+        except Exception as e:
+            # raise Exception('ERROR: Could not parse YouTube response.')
+            if (
+                e.args[0] == "ERROR: Could not parse YouTube response."
+            ):  # no more results
+                break
+
         print_result(
             result=result, term=term, tty=tty, dict_input=dict_input, verbose=verbose
         )
