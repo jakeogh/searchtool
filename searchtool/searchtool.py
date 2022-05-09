@@ -22,6 +22,7 @@
 # pylint: disable=C0305  # Trailing newlines editor should fix automatically, pointless warning
 
 import asyncio
+import sys
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
@@ -71,7 +72,7 @@ async def main(
             if (
                 e.args[0] == "ERROR: Could not parse YouTube response."
             ):  # no more results
-                break
+                sys.exit(0)
 
         print_result(
             result=result, term=term, tty=tty, dict_input=dict_input, verbose=verbose
