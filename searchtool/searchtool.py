@@ -66,6 +66,7 @@ async def main(
         try:
             result = await search.next()
         except Exception as e:
+            ic(e)
             # raise Exception('ERROR: Could not parse YouTube response.')
             if (
                 e.args[0] == "ERROR: Could not parse YouTube response."
