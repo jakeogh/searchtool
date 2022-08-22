@@ -47,7 +47,7 @@ def print_result(
     result,
     term: str,
     tty: bool,
-    dict_input: bool,
+    dict_output: bool,
     verbose: bool | int | float,
 ):
     results = result["result"]
@@ -56,10 +56,10 @@ def print_result(
     for _result in results:
         # ic(_result["link"], _result["title"])
         out_dict = {_result["title"]: _result["link"]}
-        output(out_dict, reason=term, dict_input=dict_input, tty=tty, verbose=verbose)
+        output(out_dict, reason=term, dict_output=dict_output, tty=tty, verbose=verbose)
 
 
-async def main(*, term: str, tty: bool, dict_input: bool, verbose: bool | int | float):
+async def main(*, term: str, tty: bool, dict_output: bool, verbose: bool | int | float):
     search = VideosSearch(term)
     while True:
         try:
@@ -73,7 +73,7 @@ async def main(*, term: str, tty: bool, dict_input: bool, verbose: bool | int | 
                 sys.exit(0)
 
         print_result(
-            result=result, term=term, tty=tty, dict_input=dict_input, verbose=verbose
+            result=result, term=term, tty=tty, dict_output=dict_output, verbose=verbose
         )
 
     # result = await search.next()
@@ -87,7 +87,7 @@ def cli(
     ctx,
     verbose: bool | int | float,
     verbose_inf: bool,
-    dict_input: bool,
+    dict_output: bool,
 ) -> None:
 
     tty, verbose = tv(
@@ -106,7 +106,7 @@ def _youtube(
     terms: Sequence[str],
     verbose: bool | int | float,
     verbose_inf: bool,
-    dict_input: bool,
+    dict_output: bool,
 ) -> None:
 
     tty, verbose = tv(
@@ -131,7 +131,7 @@ def _youtube(
         if verbose:
             ic(index, _term)
 
-        asyncio.run(main(term=_term, tty=tty, dict_input=dict_input, verbose=verbose))
+        asyncio.run(main(term=_term, tty=tty, dict_output=dict_output, verbose=verbose))
 
 
 if __name__ == "__main__":
