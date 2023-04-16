@@ -24,7 +24,6 @@ from __future__ import annotations
 
 import asyncio
 import sys
-from collections.abc import Sequence
 from signal import SIG_DFL
 from signal import SIGPIPE
 from signal import signal
@@ -48,7 +47,7 @@ def print_result(
     term: str,
     tty: bool,
     dict_output: bool,
-    verbose: bool | int | float,
+    verbose: bool | int | float = False,
 ):
     results = result["result"]
     # ic(type(results))
@@ -59,7 +58,13 @@ def print_result(
         output(out_dict, reason=term, dict_output=dict_output, tty=tty, verbose=verbose)
 
 
-async def main(*, term: str, tty: bool, dict_output: bool, verbose: bool | int | float):
+async def main(
+    *,
+    term: str,
+    tty: bool,
+    dict_output: bool,
+    verbose: bool | int | float,
+):
     search = VideosSearch(term)
     while True:
         try:
@@ -85,11 +90,10 @@ async def main(*, term: str, tty: bool, dict_output: bool, verbose: bool | int |
 @click.pass_context
 def cli(
     ctx,
-    verbose: bool | int | float,
     verbose_inf: bool,
     dict_output: bool,
+    verbose: bool | int | float = False,
 ) -> None:
-
     tty, verbose = tv(
         ctx=ctx,
         verbose=verbose,
@@ -103,12 +107,11 @@ def cli(
 @click.pass_context
 def _youtube(
     ctx,
-    terms: Sequence[str],
-    verbose: bool | int | float,
+    terms: tuple[str, ...],
     verbose_inf: bool,
     dict_output: bool,
+    verbose: bool | int | float = False,
 ) -> None:
-
     tty, verbose = tv(
         ctx=ctx,
         verbose=verbose,
@@ -132,8 +135,3 @@ def _youtube(
             ic(index, _term)
 
         asyncio.run(main(term=_term, tty=tty, dict_output=dict_output, verbose=verbose))
-
-
-if __name__ == "__main__":
-    # pylint: disable=E1120
-    cli()
