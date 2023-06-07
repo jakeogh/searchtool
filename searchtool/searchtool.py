@@ -55,7 +55,13 @@ def print_result(
     for _result in results:
         # ic(_result["link"], _result["title"])
         out_dict = {_result["title"]: _result["link"]}
-        output(out_dict, reason=term, dict_output=dict_output, tty=tty, verbose=verbose)
+        output(
+            out_dict,
+            reason=term,
+            dict_output=dict_output,
+            tty=tty,
+            flush=True,
+        )
 
 
 async def main(
@@ -63,7 +69,7 @@ async def main(
     term: str,
     tty: bool,
     dict_output: bool,
-    verbose: bool | int | float,
+    verbose: bool | int | float = False,
 ):
     search = VideosSearch(term)
     while True:
@@ -78,7 +84,10 @@ async def main(
                 sys.exit(0)
 
         print_result(
-            result=result, term=term, tty=tty, dict_output=dict_output, verbose=verbose
+            result=result,
+            term=term,
+            tty=tty,
+            dict_output=dict_output,
         )
 
     # result = await search.next()
@@ -99,6 +108,8 @@ def cli(
         verbose=verbose,
         verbose_inf=verbose_inf,
     )
+    if not verbose:
+        ic.disable()
 
 
 @cli.command("youtube")
@@ -125,13 +136,10 @@ def _youtube(
             valid_types=[
                 str,
             ],
-            verbose=verbose,
         )
     del terms
 
     index = 0
     for index, _term in enumerate(iterator):
-        if verbose:
-            ic(index, _term)
-
-        asyncio.run(main(term=_term, tty=tty, dict_output=dict_output, verbose=verbose))
+        ic(index, _term)
+        asyncio.run(main(term=_term, tty=tty, dict_output=dict_output))
