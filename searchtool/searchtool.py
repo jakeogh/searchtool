@@ -30,6 +30,7 @@ from signal import signal
 
 import click
 from asserttool import ic
+from asserttool import icp
 from click_auto_help import AHGroup
 from clicktool import click_add_options
 from clicktool import click_global_options
@@ -76,19 +77,19 @@ async def main(
         try:
             result = await search.next()
         except Exception as e:
-            ic(e)
+            icp(e)
             # raise Exception('ERROR: Could not parse YouTube response.')
             if (
                 e.args[0] == "ERROR: Could not parse YouTube response."
             ):  # no more results
                 sys.exit(0)
-
-        print_result(
-            result=result,
-            term=term,
-            tty=tty,
-            dict_output=dict_output,
-        )
+        else:
+            print_result(
+                result=result,
+                term=term,
+                tty=tty,
+                dict_output=dict_output,
+            )
 
     # result = await search.next()
     # print_result(result)
