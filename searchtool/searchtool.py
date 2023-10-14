@@ -34,7 +34,8 @@ from asserttool import icp
 from click_auto_help import AHGroup
 from clicktool import click_add_options
 from clicktool import click_global_options
-from clicktool import tv
+from clicktool import tvicgvd
+from globalverbose import gvd
 from mptool import output
 from unmp import unmp
 from youtubesearchpython.__future__ import VideosSearch
@@ -48,7 +49,7 @@ def print_result(
     term: str,
     tty: bool,
     dict_output: bool,
-    verbose: bool | int | float = False,
+    verbose: bool = False,
 ):
     results = result["result"]
     # ic(type(results))
@@ -70,12 +71,13 @@ async def main(
     term: str,
     tty: bool,
     dict_output: bool,
-    verbose: bool | int | float = False,
+    verbose: bool = False,
 ):
     search = VideosSearch(term)
     while True:
         try:
             result = await search.next()
+            ic(result)
         except Exception as e:
             icp(e)
             # raise Exception('ERROR: Could not parse YouTube response.')
@@ -102,12 +104,14 @@ def cli(
     ctx,
     verbose_inf: bool,
     dict_output: bool,
-    verbose: bool | int | float = False,
+    verbose: bool = False,
 ) -> None:
-    tty, verbose = tv(
+    tty, verbose = tvicgvd(
         ctx=ctx,
         verbose=verbose,
         verbose_inf=verbose_inf,
+        ic=ic,
+        gvd=gvd,
     )
     if not verbose:
         ic.disable()
@@ -122,12 +126,14 @@ def _youtube(
     terms: tuple[str, ...],
     verbose_inf: bool,
     dict_output: bool,
-    verbose: bool | int | float = False,
+    verbose: bool = False,
 ) -> None:
-    tty, verbose = tv(
+    tty, verbose = tvicgvd(
         ctx=ctx,
         verbose=verbose,
         verbose_inf=verbose_inf,
+        ic=ic,
+        gvd=gvd,
     )
 
     if terms:
